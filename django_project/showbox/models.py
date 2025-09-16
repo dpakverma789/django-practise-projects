@@ -18,10 +18,9 @@ class TheaterDetails(models.Model):
         return self.name
 
 
-
 class BookingDetails(models.Model):
-    name = models.IntegerField()
+    name = models.CharField()
     reserved_seats = models.IntegerField()
     amount = models.IntegerField(default=0)
-    theater_details_id = models.ForeignKey(TheaterDetails, on_delete=models.CASCADE) # M2O
-    show_details_id = models.ForeignKey(ShowDetails, on_delete=models.CASCADE) # M2O
+    theater_details = models.ForeignKey(TheaterDetails, on_delete=models.CASCADE,db_column="theater_details_id") # M2O
+    show_details = models.ForeignKey(ShowDetails, on_delete=models.CASCADE,db_column="show_details_id") # M2O

@@ -1,5 +1,74 @@
-asgiref==3.8.1
-Django==5.2.1
-djangorestframework==3.16.1
-sqlparse==0.5.3
-typing_extensions==4.14.0
+
+Tips
+- it is good to save keys and token in environment variable
+   Api key, token, database details, secret key
+
+
+myproject>
+ |-- manage.py
+ |-- myproject>
+ |  	|-- __init__.py
+ |  	|-- settings.py
+ |  	|-- urls.py
+ |  	|-- asgi.py
+ |  	|-- wsgi.py
+ |-- my_app_1>
+ |  	|-- migrations>
+ 	     |-- __init__.py
+ 	     |-- migration_001.py
+ |  	|-- __init__.py
+ |  	|-- admin.py
+ |  	|-- apps.py
+ |  	|-- models.py
+ |  	|-- tests.py
+ |  	|-- views.py
+ |  	|-- urls.py
+ |-- my_app_2>
+ |  	|-- migrations>
+ 	     |-- __init__.py
+ 	     |-- migration_001.py
+ |  	|-- __init__.py
+ |  	|-- admin.py
+ |  	|-- apps.py
+ |  	|-- models.py
+ |  	|-- tests.py
+ |  	|-- views.py
+ |  	|-- urls.py
+
+
+# creating and activation virtual environment
+>pip install virtualenv
+>virtualenv venv_name
+>venv_name\Scripts\activate
+
+
+
+# To Create Django Project
+>django-admin startproject <project_name>
+
+# To Create Django App
+>django-admin startapp <app_name>
+
+# To create migration Sql
+>python manage.py makemigrations
+
+# To apply migration Sql
+>python manage.py migrate
+
+# To apply migration to specific db when have multiple if it is not to be applied on default
+>python manage.py migrate --database=<dbnanme>
+
+
+# create super user
+>python manage.py createsuperuser
+
+# Generating SECRET_KEY
+>from django.core.management.utils import get_random_secret_key
+>print(get_random_secret_key())
+
+
+# rolling back last migration
+> python manage.py migrate <app_name> <migration_name>
+
+# to revert all migration
+> python manage.py migrate <app_name> zero
