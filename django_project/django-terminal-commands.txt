@@ -72,3 +72,9 @@ myproject>
 
 # to revert all migration
 > python manage.py migrate <app_name> zero
+
+# keeping only one migration and deleting alter migrations
+python manage.py migrate myapp zero  # fake reset migrations
+rm myapp/migrations/0*.py
+python manage.py makemigrations myapp
+python manage.py migrate --fake-initial myapp
