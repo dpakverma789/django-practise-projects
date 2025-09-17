@@ -2,7 +2,7 @@ from django.db import models
 
 class ShowDetails(models.Model):
     name = models.CharField()
-    show_time = models.DateTimeField()
+    show_time = models.CharField()
 
     def __str__(self):
         return self.name
