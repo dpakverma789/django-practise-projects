@@ -1,12 +1,28 @@
 from rest_framework import serializers
-from .models import ShowDetails,BookingDetails
+from .models import *
+
+class BookingDetailsSerializer(serializers.ModelSerializer):
+    show_name = serializers.CharField(source='show_details.name', read_only=True)
+    theater_name = serializers.CharField(source='theater_details.name', read_only=True)
+    class Meta:
+        model = BookingDetails
+        fields = [
+            "id",
+            "name",
+            "reserved_seats",
+            "amount",
+            "show_name",
+            "theater_name"
+        ]
+
 
 class ShowDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShowDetails
-        fields = '__all__'
+        fields = ["id", "name", "show_time"]
 
-class BookingDetailsSerializer(serializers.ModelSerializer):
+
+class TheaterDetailsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BookingDetails
-        fields = '__all__'
+        model = TheaterDetails
+        fields = ["id", "name", "capacity", "reserved_seats", "unreserved_seats"]

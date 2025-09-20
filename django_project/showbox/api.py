@@ -1,0 +1,58 @@
+from rest_framework import generics
+from .models import ShowDetails, TheaterDetails, BookingDetails
+from .serializers import ShowDetailsSerializer, TheaterDetailsSerializer, BookingDetailsSerializer
+from rest_framework.response import Response
+from rest_framework import status
+from django.db import transaction
+"""
+ListAPIView → GET all only.
+CreateAPIView → POST only.
+RetrieveAPIView → Get one only.
+UpdateAPIView → PUT/Patch only.
+DestroyAPIView → DELETE only.
+"""
+
+class ShowDetailsAPI(generics.ListCreateAPIView):
+    serializer_class = ShowDetailsSerializer
+
+    def get_queryset(self):
+        queryset = ShowDetails.objects.all()
+        name = self.request.query_params.get('name')
+        show_time = self.request.query_params.get('show_time')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        if show_time:
+            queryset = queryset.filter(show_time=show_time)
+        return queryset
+
+class TheaterDetailsAPI(generics.ListCreateAPIView):
+    serializer_class = TheaterDetailsSerializer
+
+    def get_queryset(self):
+        queryset = TheaterDetails.objects.all()
+        name = self.request.query_params.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
+
+
+class BookingDetailsAPI(generics.ListCreateAPIView):
+    queryset = BookingDetails.objects.all()
+    serializer_class = BookingDetailsSerializer
+
+    def perform_create(self, serializer):
+        seat_required = serializer.validated_data['reserved_seats']
+        theater_details = serializer.validated_data['theater_details']
+        if seat_required > theater_details.capacity:
+            return Response(
+                {"error": f"Booking failed. Theater capacity is {theater_details.capacity}, requested {seat_required} seats."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        with transaction.atomic():
+            # Save the booking
+            serializer.save()
+
+            # Update theater seat counts
+            theater_details.unreserved_seats -= seat_required
+            theater_details.reserved_seats += seat_required
+            theater_details.save()
