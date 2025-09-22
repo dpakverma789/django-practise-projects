@@ -18,11 +18,8 @@ class ShowDetailsAPI(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = ShowDetails.objects.all()
         name = self.request.query_params.get('name')
-        show_time = self.request.query_params.get('show_time')
         if name:
             queryset = queryset.filter(name__icontains=name)
-        if show_time:
-            queryset = queryset.filter(show_time=show_time)
         return queryset
 
 class TheaterDetailsAPI(generics.ListCreateAPIView):
@@ -30,9 +27,9 @@ class TheaterDetailsAPI(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = TheaterDetails.objects.all()
-        name = self.request.query_params.get('name')
-        if name:
-            queryset = queryset.filter(name__icontains=name)
+        theater_name = self.request.query_params.get('theater_name')
+        if theater_name:
+            queryset = queryset.filter(theater_name__icontains=theater_name)
         return queryset
 
 
