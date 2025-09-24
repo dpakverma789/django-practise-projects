@@ -21,4 +21,5 @@ class BookingDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookingDetails
-        fields = ["id","theater_details","theater_name","name","show_details","show_name","show_time","reserved_seats","amount"]
+        fields = ["id","theater_details","theater_name","name",
+                  "show_details","show_name","show_time","reserved_seats"]
