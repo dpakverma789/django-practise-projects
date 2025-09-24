@@ -60,6 +60,6 @@ class BookingDetailsAPI(generics.ListCreateAPIView):
             serializer.save()
 
             # Update theater seat counts
-            # theater_details.unreserved_seats -= seat_required
-            # theater_details.reserved_seats += seat_required
-            # theater_details.save()
+            theater_details.unreserved_seats -= seat_required
+            theater_details.reserved_seats += seat_required
+            theater_details.save()
