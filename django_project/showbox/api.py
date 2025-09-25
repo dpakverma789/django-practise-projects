@@ -5,6 +5,21 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db import transaction
 
+"""
+ListAPIView → GET all only.
+CreateAPIView → POST only.
+RetrieveAPIView → Get one only.
+UpdateAPIView → PUT/Patch only.
+DestroyAPIView → DELETE only.
+
+
+perform_create(self, serializer): When to use: When you need to modify how an object is saved during creation.
+perform_update(self, serializer): When to use: Custom logic during object updates.
+get_queryset(): When to use: Dynamic filtering, permission-based data access, or custom query logic.
+get_serializer_class(): When to use: Different serializers for different actions or conditions.
+get_serializer_context(): When to use: Pass additional context to serializer.
+
+"""
 
 class ShowDetailsAPI(generics.ListCreateAPIView):
     serializer_class = ShowDetailsSerializer
